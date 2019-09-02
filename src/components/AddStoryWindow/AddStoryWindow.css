@@ -1,0 +1,24 @@
+.withFont{
+    font-family: 'Assistant',semibold, sans-serif;
+
+}
+.address{
+    -webkit-text-fill-color: var(--primary-color);
+}
+.yearInput{
+    width: 150px;
+}
+.input[type='text']{
+    text-align: right;
+}
+
+.button{
+    background-color: var(--primary-color);
+}
+
+
+
+.fill-color{
+    background-color: #2D8FC7;
+    -webkit-text-fill-color: white;
+}

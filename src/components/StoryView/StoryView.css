@@ -1,0 +1,69 @@
+.textAlignment{
+    text-align: right;
+    //text-align-all: right;
+    font-family: 'Assistant',semibold, sans-serif;
+    height: 400px;
+}
+
+.title {
+    font-family: 'Assistant',semibold, sans-serif;
+    text-align: right;
+    text-align-all: right;
+    text-after-overflow: scroll;
+    font-size: 28px;
+}
+
+.text{
+    font-family: 'Assistant',light, sans-serif;
+    text-align: right;
+    text-align-all: right;
+    font-size: 18px;
+    text-after-overflow: scroll;
+}
+
+.author{
+    font-family: 'Assistant',bold, sans-serif;
+    padding-top: 10px;
+    font-size: 20px;
+
+}
+
+.fill-color{
+    background-color: var(--primary-color);
+    -webkit-text-fill-color: white;
+}
+
+/*.divider-and-year{*/
+/*    transform: translateX(-400px);*/
+/*    alignment: right;*/
+/*    text-align-all: right;*/
+/*    text-align: right;*/
+
+/*}*/
+.vert-divider{
+    alignment: left;
+    background-color: var(--primary-color);
+    width: 2px;
+    min-height: 31px;
+    /*transform: translateX(-50px);*/
+    float: left;
+    margin: 0 7px 0 7px;
+}
+.year{
+    font-family: 'Assistant',semibold, sans-serif;
+    font-size: 16px;
+    margin: 10px;
+    /*transform: translateX(-100px);*/
+    float:left
+}
+
+.bottom{
+    max-width: 2px;
+    margin-right: 7px;
+}
+.divider{
+    margin: 10px 0;
+    width:100%;
+    height:2px;
+    background-color: var(--primary-color);
+}
