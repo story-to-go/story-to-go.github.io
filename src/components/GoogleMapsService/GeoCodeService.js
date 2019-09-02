@@ -1,5 +1,5 @@
 
-export let API_KEY = "AIzaSyB25F-pebVd28r7D23iqMuT7Iwk57kOO38\n";
+export let API_KEY = "";
 export const GOOGLE_API = "https://maps.google.com/maps/api/geocode/json";
 export let LANGUAGE = 'iw';
 

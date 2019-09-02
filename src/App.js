@@ -125,7 +125,7 @@ class App extends React.Component{
                         </Nav.Item>
 
                         <Nav.Item className="navItem" onClick={this.toggleShowOptions.bind(this)}
-                                  icon={<img src={"/icons/blue-lines-06.svg"} alt={''}
+                                  icon={<img src={"icons/blue-lines-06.svg"} alt={''}
                                                                  style={{height:'40px',transform:'translateY(-20%)'}}/>}>
                         </Nav.Item>
                     </Nav>

@@ -19,7 +19,7 @@ export default class StoryView extends React.Component {
             <div className={"textAlignment"} style={styles}>
                 <br style={{height:1}}/>
                 <span className={'author'}> {story && `\n` + story.author} </span>
-                <img src={'/icons/follow-icon-05.svg'} alt={''} style={{float: "left", width: '51px', height:'35px'}}/>
+                <img src={'icons/follow-icon-05.svg'} alt={''} style={{float: "left", width: '51px', height:'35px'}}/>
                 <Divider className={'vert-divider'} vertical/>
                 <Divider className={'vert-divider'} vertical/>
 
