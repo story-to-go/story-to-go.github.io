@@ -1,5 +1,5 @@
 import React from 'react'
-import {Drawer, Button, Divider} from "rsuite";
+import {Drawer, Button, Divider, Toggle, Input} from "rsuite";
 import './Options.css'
 export default class Options extends React.Component {
 
@@ -56,6 +56,11 @@ export default class Options extends React.Component {
         let close = this.props.close;
         let stories = this.props.stories;
         let deleteStories = this.props.deleteAllStories;
+        let locked = this.props.addressLock;
+        let onLockChanged = this.props.onLockChange;
+        let lockedAddress = this.props.lockedAddress;
+        let onAddressChanged = this.props.onAddressChanged;
+
         return (
             <Drawer
                 size={'xs'}
@@ -83,6 +88,17 @@ export default class Options extends React.Component {
                     <Button className={'button'} onClick={() => deleteStories()}>מחק</Button>
 
                     <Divider className={'options-divider'}/>
+
+                    <h2 className={' header'}>נעילה על מיקום</h2>
+
+                    <Input placeholder={'תל אביב'} onChange={onAddressChanged} value={lockedAddress}/>
+                    <br/>
+                    <Toggle className={'toggleLockAddress'} checkedChildren="נעול" unCheckedChildren="חופשי" checked={locked}
+                        onChange={onLockChanged}
+                    />
+
+                    <Divider className={'options-divider'}/>
+
 
                 </Drawer.Body>
                 <Drawer.Footer style={{float:'left'}}>

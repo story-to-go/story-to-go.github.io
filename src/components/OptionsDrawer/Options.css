@@ -13,6 +13,15 @@
     -webkit-text-fill-color: white;
     float: left;
 }
+
+.toggleLockAddress{
+    float: left;
+}
+
+.rs-btn-toggle-checked{
+    background-color: var(--primary-color);
+}
+
 .options-divider{
     margin: 70px 0 70px 0;
 }

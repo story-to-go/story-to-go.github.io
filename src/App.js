@@ -7,7 +7,8 @@ import {Slider} from 'antd'
 
 import 'antd/es/slider/style/css';
 import Options from "./components/OptionsDrawer/Options";
-import AboutModal from "./components/About/AboutModal"; // for css
+import AboutModal from "./components/About/AboutModal";
+import GeoCodeService from "./components/GoogleMapsService/GeoCodeService"; // for css
 class App extends React.Component{
 
     constructor(props){
@@ -26,7 +27,10 @@ class App extends React.Component{
                 end:2019
             },
             showOptions:false,
-            showAbout:false
+            showAbout:false,
+            addressLock: false,
+            lockedAddress:"",
+            lockedCoords:[]
         };
     }
 
@@ -64,9 +68,17 @@ class App extends React.Component{
 
     componentDidMount() {
         let stories = JSON.parse(localStorage.getItem('stories')) || [];
+        let addressLock = JSON.parse(localStorage.getItem('addressLock')) || false;
+        let lockedCoords = JSON.parse(localStorage.getItem('lockedCoords')) || [];
         if(stories == null)
             stories = [];
-        this.setState({stories});
+        this.setState({stories, addressLock, lockedCoords});
+    }
+
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        localStorage.setItem('stories', JSON.stringify(this.state.stories));
+        localStorage.setItem('addressLock', JSON.stringify(this.state.addressLock));
+        localStorage.setItem('lockedCoords', JSON.stringify(this.state.lockedCoords));
     }
 
     onSliderChange(value){
@@ -194,12 +206,27 @@ class App extends React.Component{
         this.setState({stories:[]});
     }
 
+    lockedAddressChanged(){
+        if(!this.state.addressLock){
+            GeoCodeService.fromAddress(this.state.lockedAddress).then(response => {
+                let coords =  response.results[0].geometry.location;
+                this.setState({addressLock: !this.state.addressLock, lockedCoords: coords});
+            });
+        }
+        else{
+            this.setState({addressLock: !this.state.addressLock});
+        }
+    }
+
     render() {
         return (
             <div className="App">
                 <Modal className={"modal"} onHide={() => this.toggleAddStory()} show={this.state.showAddStory} full={true} autoFocus={true}>
                     <AddStoryWindow address={this.state.clickedAddress} latlng={this.state.clickedLatLng} toggle={this.toggleAddStory.bind(this)}
                                     onSubmitStory={this.onStorySubmitted.bind(this)}/>
+                </Modal>
+                <Modal show={this.state.showAbout} onHide={() => this.toggleAbout()} autoFocus={true} full={true}>
+                    <AboutModal/>
                 </Modal>
 
                 {this.navigationBar()}
@@ -210,14 +237,18 @@ class App extends React.Component{
                               clickAwayStoryView={this.clickAwayStoryView.bind(this)}
                               showMyLocation={this.state.goToMyLocation}
                               stories={this.getFilteredStories()}
-                              toggleAddStory={(address, latlng) => this.addStory(address, latlng)}/>
+                              toggleAddStory={(address, latlng) => this.addStory(address, latlng)}
+                              lockedCoords={this.state.lockedCoords}
+                              addressLocked={this.state.addressLock}
+                />
 
                 <Options show={this.state.showOptions} close={this.toggleShowOptions.bind(this)} stories={this.state.stories}
-                        addStories={this.addStories.bind(this)} deleteAllStories={this.deleteAllStories.bind(this)}/>
+                        addStories={this.addStories.bind(this)} deleteAllStories={this.deleteAllStories.bind(this)}
+                         addressLock={this.state.addressLock} onLockChange={() => this.lockedAddressChanged()}
+                         lockedAddress={this.state.lockedAddress} onAddressChanged={(value) => this.setState({lockedAddress: value, addressLock: false})}
+                />
 
-                <Modal show={this.showAbout} onHide={() => this.toggleAbout()} autoFocus={true} full>
-                    <AboutModal/>
-                </Modal>
+
             </div>
         );
     }

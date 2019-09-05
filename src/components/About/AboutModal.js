@@ -1,17 +1,15 @@
 import React from 'react'
-import {Modal, Button} from "rsuite";
+import {Modal} from "rsuite";
 import ABOUT_TEXT from './AboutText'
 import './AboutModal.css'
 
 export default class AboutModal extends React.Component {
 
     render() {
-        const show = this.props.show;
-        let onHide = this.props.toggleAbout;
-
         return (
                 <span>
                 <Modal.Header>
+                    <br/>
                     <Modal.Title className={"aboutTitle"}>אודות</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -27,7 +25,7 @@ export default class AboutModal extends React.Component {
                     </p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <p>
+                    <p className={"withFont"}>
                         (c) כל הזכויות שמורות למיכל אריאלי
                     </p>
                 </Modal.Footer>

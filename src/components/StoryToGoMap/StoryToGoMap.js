@@ -19,12 +19,18 @@ class StoryToGoMap extends React.Component {
         let lng = 34.6;
 
         this.toggleAddStory = this.props.toggleAddStory;
-        this.onStorySelected= this.props.onStorySelected;
+        this.onStorySelected = this.props.onStorySelected;
 
         if(this.props.coords){
             lat = this.props.coords.latitude;
             lng = this.props.coords.longitude;
         }
+
+        if(this.props.addressLocked){
+            lat = this.props.lockedCoords.lat;
+            lng = this.props.lockedCoords.lng;
+        }
+
         this.state = {
             lat: lat,
             lng: lng,
@@ -40,6 +46,13 @@ class StoryToGoMap extends React.Component {
             let lat = nextProps.coords.latitude;
             let lng = nextProps.coords.longitude;
             let zoom = 17;
+
+            if(this.props.addressLocked){
+                lat = this.props.lockedCoords.lat;
+                lng = this.props.lockedCoords.lng;
+                zoom = 14;
+            }
+
             let stories = nextProps.stories;
             this.setState({lat, lng, zoom, stories});
         }
@@ -88,6 +101,7 @@ class StoryToGoMap extends React.Component {
                  onContextMenu={(event) => this.onContextMenu(event)}
                  // onViewportChanged={() => console.log(this.state.zoom)}
                  whenReady = {() => this.setState({loading: false})}
+                 dragging={!this.props.addressLocked}
             >
 
                 <TileLayer className={'tile'}

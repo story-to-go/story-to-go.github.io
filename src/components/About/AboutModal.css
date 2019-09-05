@@ -6,5 +6,6 @@
 .aboutText{
     font-family: 'Assistant', light, sans-serif;
     font-size: 24px;
-
+    max-height: 65vh;
+    overflow-y: scroll;
 }

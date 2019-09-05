@@ -2,7 +2,7 @@
   "name": "story-to-go",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://story-to-go.github.io/app",
+  "homepage": "https://story-to-go.github.io/",
   "dependencies": {
     "antd": "^3.22.2",
     "gh-pages": "^2.1.1",
