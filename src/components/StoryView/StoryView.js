@@ -12,7 +12,6 @@ export default class StoryView extends React.Component {
         const story = this.props.story;
         const mediaStyle = {maxWidth:'100%', maxHeight:'100%'};
         const styles = {width: '450px'};
-        console.log(story.imageURL);
         // width: '51px', height:'20px'
         return (
 
@@ -23,7 +22,7 @@ export default class StoryView extends React.Component {
                 <Divider className={'vert-divider'} vertical/>
                 <Divider className={'vert-divider'} vertical/>
 
-                <Divider style={{height: '2px', margin: '8px', backgroundColor:'var(--primary-color)'}}/>
+                <Divider style={{height: '2px', marginTop: '8px', marginBottom: '8px', backgroundColor:'var(--primary-color)'}}/>
 
                 <span className={'title'}>{story && <strong>{story.title}</strong>}</span>
                 <span className={'year'}>{story && story.year}</span>
@@ -56,7 +55,7 @@ export default class StoryView extends React.Component {
                 <TagGroup>
                         {story && story.tags.map((tag, index) =>
                             <span key={index}>
-                            <Tag color="#2D8FC7" className={'fill-color'}> {tag} </Tag>
+                            <Tag className={'fill-color'}> {tag} </Tag>
                                 &nbsp;
                             </span>
                         )}

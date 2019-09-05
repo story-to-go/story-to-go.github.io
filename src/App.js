@@ -6,7 +6,8 @@ import AddStoryWindow from "./components/AddStoryWindow/AddStoryWindow";
 import {Slider} from 'antd'
 
 import 'antd/es/slider/style/css';
-import Options from "./components/OptionsDrawer/Options"; // for css
+import Options from "./components/OptionsDrawer/Options";
+import AboutModal from "./components/About/AboutModal"; // for css
 class App extends React.Component{
 
     constructor(props){
@@ -24,7 +25,8 @@ class App extends React.Component{
                 start: 1900,
                 end:2019
             },
-            showOptions:false
+            showOptions:false,
+            showAbout:false
         };
     }
 
@@ -35,6 +37,10 @@ class App extends React.Component{
 
     toggleShowOptions(){
         this.setState({showOptions: !this.state.showOptions});
+    }
+
+    toggleAbout(){
+        this.setState({showAbout: !this.state.showAbout});
     }
 
     addStory(address, latlng){
@@ -91,14 +97,33 @@ class App extends React.Component{
         };
         return (  <Navbar style={{backgroundColor: 'white'}}>
                 <Navbar.Header>
-                    <a href="/" className="navbar-brand logo brandLogo">STORY TO GO</a>
+
                 </Navbar.Header>
                 <Navbar.Body >
-                    <Nav className="navItem addStory">
+                    <Nav className="navItem addStory" pullRight>
+                        <a href="/" className="navbar-brand logo brandLogo">
+                            <img src="logo/logo.png" alt={'logo'} style={{width:'378px', height:'46px'}}/>
+                        </a>
                         <Nav.Item onClick={() => this.toggleAddStory()}> + הוסיפו סיפור</Nav.Item>
+                        <Nav.Item onClick={() => this.toggleAbout()}>אודות</Nav.Item>
+
                     </Nav>
 
-                    <Nav pullRight  >
+                    <Nav >
+                        <Nav.Item className="navItem" onClick={this.toggleShowOptions.bind(this)}
+                                  icon={<img src={"icons/blue-lines-06.svg"} alt={''}
+                                             style={{height:'40px',transform:'translateY(-20%)'}}/>}>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <InputGroup style={styles}>
+                                <AutoComplete placeholder={"מחבר / מקום / תגיות / מדיום"} name={"searchText"}
+                                              data={this.state.stories && this.state.stories.flatMap(story => story && story.title)}
+                                              onChange={this.onInputChanged.bind(this)}/>
+                                <InputGroup.Addon>
+                                    <Icon className="navItem" icon="search" />
+                                </InputGroup.Addon>
+                            </InputGroup>
+                        </Nav.Item>
                         <Nav.Item  style={{minWidth: '250px'}}>
                             <Slider
                                 className={'yearSlider'}
@@ -112,21 +137,6 @@ class App extends React.Component{
                                 style={{top:'50%', transform:'translateY(-120%)', width: '200px'}}
                                 tooltipVisible={false}
                             />
-                        </Nav.Item>
-                        <Nav.Item>
-                            <InputGroup style={styles}>
-                                <AutoComplete placeholder={"מחבר / מקום / שנה / תגיות / מדיום"} name={"searchText"}
-                                              data={this.state.stories && this.state.stories.flatMap(story => story && story.title)}
-                                       onChange={this.onInputChanged.bind(this)}/>
-                                <InputGroup.Addon>
-                                    <Icon className="navItem" icon="search" />
-                                </InputGroup.Addon>
-                            </InputGroup>
-                        </Nav.Item>
-
-                        <Nav.Item className="navItem" onClick={this.toggleShowOptions.bind(this)}
-                                  icon={<img src={"icons/blue-lines-06.svg"} alt={''}
-                                                                 style={{height:'40px',transform:'translateY(-20%)'}}/>}>
                         </Nav.Item>
                     </Nav>
 
@@ -204,6 +214,10 @@ class App extends React.Component{
 
                 <Options show={this.state.showOptions} close={this.toggleShowOptions.bind(this)} stories={this.state.stories}
                         addStories={this.addStories.bind(this)} deleteAllStories={this.deleteAllStories.bind(this)}/>
+
+                <Modal show={this.showAbout} onHide={() => this.toggleAbout()} autoFocus={true} full>
+                    <AboutModal/>
+                </Modal>
             </div>
         );
     }

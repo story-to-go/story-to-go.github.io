@@ -3,7 +3,11 @@
     color:rgb(102, 162, 205);
 }
 
-
+.icon-my-location
+{
+    width: 30px;
+    height: 30px;
+}
 .icon-text{
     fill:#f6b985
 }

@@ -51,7 +51,7 @@ class StoryToGoMap extends React.Component {
             response => {
                 const address = response.results[0].formatted_address;
                 this.toggleAddStory(address, event.latlng);
-                console.log(address);
+                // console.log(address);
             },
             error => {
                 console.error(error);
@@ -86,7 +86,7 @@ class StoryToGoMap extends React.Component {
             <Map center={position} zoom={this.state.zoom}
                  className={"leaflet-container"}
                  onContextMenu={(event) => this.onContextMenu(event)}
-                 onViewportChanged={() => console.log(this.state.zoom)}
+                 // onViewportChanged={() => console.log(this.state.zoom)}
                  whenReady = {() => this.setState({loading: false})}
             >
 

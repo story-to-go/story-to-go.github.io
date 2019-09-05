@@ -61,6 +61,7 @@ export default class Options extends React.Component {
                 size={'xs'}
                 show={show}
                 onHide={close}
+                placement={'left'}
             >
                 <Drawer.Header>
                     <h1 className={'title header'}>אפשרויות</h1>

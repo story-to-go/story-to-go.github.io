@@ -17,7 +17,7 @@ export default class AddStoryWindow extends React.Component {
             story:'',
             medium:'',
             year:2019,
-            tags: ['סיפור', 'רחוב', 'טיול'],
+            tags: [],
             address:this.props.address,
             latlng: this.props.latlng,
             imageUrl: ''
@@ -101,6 +101,10 @@ export default class AddStoryWindow extends React.Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
+    onYearChanged(year){
+        this.setState({year});
+    }
+
     submit(latlng)
     {
         let color = (this.state.medium && this.state.medium !== '') || (this.state.imageUrl && this.state.imageUrl !== '')  ? 'pink' : 'yellow';
@@ -173,7 +177,9 @@ export default class AddStoryWindow extends React.Component {
                         {!propsAddress &&
                             <FormGroup>
                                 <ControlLabel className={"formLabel"}>כתובת</ControlLabel>
-                                <FormControl accepter={undefined} name="address" value={this.state.address} onChange={this.onInputChanged.bind(this)}/>
+                                <FormControl accepter={undefined} name="address" value={this.state.address}
+                                             placeholder={"תל אביב בן יהודה 126"}
+                                             onChange={this.onInputChanged.bind(this)}/>
                             </FormGroup>
                         }
                         <FormGroup>
@@ -184,7 +190,7 @@ export default class AddStoryWindow extends React.Component {
                             <ControlLabel className={"formLabel"} >שנה</ControlLabel>
                             <InputNumber  name={"year"} defaultValue={2019} max={2019} min={1900}
                                           value={this.state.year}
-                                          onChange={this.onInputChanged.bind(this)}
+                                          onChange={this.onYearChanged.bind(this)}
                             />
                         </FormGroup>
                         <FormGroup>

@@ -32,8 +32,8 @@ export default class Story {
         this.icon = {
             iconUrl: iconPath,
             iconRetinaUrl: iconPath,
-            iconAnchor: new L.Point(0, 0),
-            popupAnchor:  new L.Point(20, 20),
+            iconAnchor: new L.Point(20, 20),
+            popupAnchor:  new L.Point(0, 0),
             shadowUrl: null,
             shadowSize: null,
             shadowAnchor: null,
