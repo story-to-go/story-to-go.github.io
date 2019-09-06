@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.408afa8e.chunk.css",
-    "main.js": "/static/js/main.52300214.chunk.js",
-    "main.js.map": "/static/js/main.52300214.chunk.js.map",
+    "main.css": "/static/css/main.e80ba1b6.chunk.css",
+    "main.js": "/static/js/main.853781d6.chunk.js",
+    "main.js.map": "/static/js/main.853781d6.chunk.js.map",
     "runtime~main.js": "/static/js/runtime~main.b5a490bd.js",
     "runtime~main.js.map": "/static/js/runtime~main.b5a490bd.js.map",
     "static/css/2.2c7b1d9d.chunk.css": "/static/css/2.2c7b1d9d.chunk.css",
     "static/js/2.2339e25f.chunk.js": "/static/js/2.2339e25f.chunk.js",
     "static/js/2.2339e25f.chunk.js.map": "/static/js/2.2339e25f.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.c6cf5416e75bac7d229f3a59fc0d48a6.js": "/precache-manifest.c6cf5416e75bac7d229f3a59fc0d48a6.js",
+    "precache-manifest.27be83388e58511273e865ee8b789c2e.js": "/precache-manifest.27be83388e58511273e865ee8b789c2e.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.2c7b1d9d.chunk.css.map": "/static/css/2.2c7b1d9d.chunk.css.map",
-    "static/css/main.408afa8e.chunk.css.map": "/static/css/main.408afa8e.chunk.css.map",
+    "static/css/main.e80ba1b6.chunk.css.map": "/static/css/main.e80ba1b6.chunk.css.map",
     "static/media/App.css": "/static/media/Lovelo Line Light.310ed100.otf"
   }
 }
