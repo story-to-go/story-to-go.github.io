@@ -8,6 +8,7 @@ import StoryView from "../StoryView/StoryView";
 import Loader from 'react-loader-spinner'
 import GeoCodeService from '../GoogleMapsService/GeoCodeService';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import {Icon, Modal} from "rsuite";
 
 class StoryToGoMap extends React.Component {
 
@@ -20,6 +21,7 @@ class StoryToGoMap extends React.Component {
 
         this.toggleAddStory = this.props.toggleAddStory;
         this.onStorySelected = this.props.onStorySelected;
+        this.deleteStory = this.props.deleteStory;
 
         if(this.props.coords){
             lat = this.props.coords.latitude;
@@ -37,11 +39,15 @@ class StoryToGoMap extends React.Component {
             zoom: 17,
             stories: this.props.stories,
             popUpOpen: false,
-            loading: false
+            loading: false,
+            expandStory: false,
+            selectedStory: undefined
         };
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
+        this.deleteStory = this.props.deleteStory;
+
         if(nextProps.coords != null) {
             let lat = nextProps.coords.latitude;
             let lng = nextProps.coords.longitude;
@@ -77,18 +83,23 @@ class StoryToGoMap extends React.Component {
         let open = !this.state.popUpOpen;
         this.setState({popUpOpen: open});
     }
-    onPopup(story)
-    {
+    onPopup(story) {
         this.toggleBlur();
-        this.onStorySelected(story);
+        this.setState({selectedStory: story});
+    }
+
+    onPopupClose(story) {
+        this.toggleBlur();
+        this.setState({selectedStory: undefined});
+    }
+
+    toggleStoryModal(){
+        this.setState({expandStory: !this.state.expandStory});
     }
 
     render() {
         const position = [this.state.lat, this.state.lng];
-        // let mapStyle = this.state.popUpOpen ? { width:'100%', height:'100%', filter: 'blur(4px)',
-        //          } : {};
 
-        const wider = (story) => ' wider';
         return(
             !this.props.isGeolocationAvailable ? (
                 <div>Your browser does not support Geolocation</div>
@@ -101,12 +112,11 @@ class StoryToGoMap extends React.Component {
                  onContextMenu={(event) => this.onContextMenu(event)}
                  // onViewportChanged={() => console.log(this.state.zoom)}
                  whenReady = {() => this.setState({loading: false})}
-                 dragging={!this.props.addressLocked}
             >
 
                 <TileLayer className={'tile'}
                     url= "https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.png"
-                    attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                    attribution=""
                            opacity={this.state.popUpOpen ? 0.2 : 1}
                 />
                 <Marker
@@ -116,10 +126,17 @@ class StoryToGoMap extends React.Component {
 
                 {this.state.stories.map((story, index) =>
                     <Marker key={index} position={story.position} icon={new L.Icon(story.icon)}
-                            onClick={() => this.onPopup(story)}
+                            onClick={() => this.onPopup(story)} draggable={true}
                     >
-                        <Popup className={'marker' + wider(story)} onOpen={() =>  this.toggleBlur()} onClose={() =>  this.toggleBlur()}>
-                            <StoryView className={wider(story)} story={story}/>
+                        <Popup className={'marker' + ' wider'} onOpen={() =>  this.onPopup(story)} onClose={() =>  this.toggleBlur()}>
+                            {!this.state.expandStory && this.state.selectedStory && <StoryView className={'wider'} story={this.state.selectedStory} deleteStory={this.deleteStory}
+                                       expandStory={this.state.expandStory} toggleExpand={this.toggleStoryModal.bind(this)} />}
+                            <Modal onHide={this.toggleStoryModal.bind(this)} show={this.state.expandStory} overflow={true}>
+                                <Modal.Header/>
+                                <StoryView className={'wider'} story={this.state.selectedStory} deleteStory={this.deleteStory}
+                                           expandStory={this.state.expandStory} toggleExpand={this.toggleStoryModal.bind(this)}
+                                />
+                            </Modal>
                         </Popup>
                     </Marker>
                 )}

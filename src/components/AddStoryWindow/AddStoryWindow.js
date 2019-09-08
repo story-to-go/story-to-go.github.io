@@ -63,7 +63,7 @@ export default class AddStoryWindow extends React.Component {
     componentWillReceiveProps(nextProps, nextContext) {
         let address = nextProps.address;
         let latlng = nextProps.latlng;
-        this.setState({address, latlng});
+        this.setState({address,latlng});
     }
 
     renderInput() {
@@ -105,8 +105,7 @@ export default class AddStoryWindow extends React.Component {
         this.setState({year});
     }
 
-    submit(latlng)
-    {
+    submit(latlng) {
         let color = (this.state.medium && this.state.medium !== '') || (this.state.imageUrl && this.state.imageUrl !== '')  ? 'pink' : 'yellow';
         let max = 8, min = 1;
         let shapeNumber = Math.floor(Math.random() * (+max - +min)) + +min;
@@ -119,20 +118,42 @@ export default class AddStoryWindow extends React.Component {
         console.log(this.state.author, this.state.title, this.state.address, this.state.medium, this.state.year, latlng);
     }
 
+    handleAddressError(address){
+        if(!address) {
+            console.error("address is null");
+            return;
+        }
+        const {street, number, city} = address.split(',');
+        const rearrangedAddress = [city, street, number].join(', ');
+        console.log(rearrangedAddress);
+        GeoCodeService.fromAddress(rearrangedAddress)
+            .then(response => {
+                    console.log(this.state.address);
+                    this.submit(response.results[0].geometry.location);
+                },
+                error => {
+
+                    console.error(error);
+                });
+
+    }
+
     submitNewStory(){
 
         if(this.props.latlng) {
             this.submit(this.state.latlng);
         }
         else{
+
             GeoCodeService.fromAddress(this.state.address)
                 .then(response => {
                         console.log(this.state.address);
                         this.submit(response.results[0].geometry.location);
                     },
                     error => {
-                        console.error(error);
+                        this.handleAddressError(this.state.address);
                     });
+
         }
     }
 
@@ -144,7 +165,7 @@ export default class AddStoryWindow extends React.Component {
 
     render() {
         const { tags } = this.state;
-        const propsAddress = this.propsAddress;
+        const propsAddress = this.props.address;
 
         let onResult = (error, result) => this.checkImageUploadResult(result);
         let widget = window.cloudinary.createUploadWidget({

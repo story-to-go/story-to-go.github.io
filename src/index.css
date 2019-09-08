@@ -8,7 +8,7 @@ body {
   /*background: #2D8FC7;*/
   font-family: 'Assistant',bold, sans-serif;
 
-
+  max-height: 100%;
 }
 
 code {

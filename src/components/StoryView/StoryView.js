@@ -1,18 +1,34 @@
 import React from 'react'
 
-import {Tag, TagGroup, Divider} from "rsuite";
+import {Tag, TagGroup, Divider, Icon} from "rsuite";
 import './StoryView.css'
 import ReactPlayer from 'react-player'
 import ModalImage from "react-modal-image";
+import {Modal} from "rsuite";
 
 
 export default class StoryView extends React.Component {
 
+    constructor(props){
+        super(props);
+
+        this.state = {
+            expand: false
+        }
+    }
+
+
     render() {
         const story = this.props.story;
         const mediaStyle = {maxWidth:'100%', maxHeight:'100%'};
-        const styles = {width: '450px'};
-        // width: '51px', height:'20px'
+        const deleteStory = this.props.deleteStory;
+        const expand = this.props.expandStory;
+        const toggleExpand = this.props.toggleExpand;
+        const styles = expand ? {width:'100%', height:'100%', maxHeight:'100%'} : {width: '450px'};
+        const textHeight = expand ? '400px' : '200px';
+
+        let imageComponent = <ModalImage small={story.imageURL} style={{maxHeight: '200px'}} large={story.imageURL} alt={story.title}/>;
+
         return (
 
             <div className={"textAlignment"} style={styles}>
@@ -34,23 +50,29 @@ export default class StoryView extends React.Component {
                     <img src={story.iconPath} style={{width:'32px', height:'32px'}} alt={''}/>
                     {story.address}
                 </h5>}
-                <p className={'text'} style={{height: '200px',  overflowY:'scroll'}}>
-                    {story.imageURL && <ModalImage  small={story.imageURL} large={story.imageURL} alt={story.title}/>}
-
+                <div style={{height: textHeight,  overflowY:'scroll'}}>
+                    {story.imageURL && imageComponent }
                     {story.medium && <ReactPlayer style={mediaStyle} url={story.medium} playing controls={true}/>}
-                    {story && story.content.split('\n').map(function(item, key) {
-                        return (
-                            <span key={key}>
-                                {item}
-                                <br/>
-                            </span>
-                        )
-                    })}
 
-                </p>
+                    <p className={'text'} >
 
+                        {story && story.content.split('\n').map(function(item, key) {
+                            return (
+                                <span key={key}>
+                                    {item}
+                                    <br/>
+                                </span>
+                            )
+                        })}
+
+                    </p>
+                </div>
 
                 <Divider  className={'divider'}/>
+                <Icon style={{float: "left"}} icon='trash-o' onClick={() => deleteStory(story)} size="lg"/>
+                {
+                    !expand && <Icon icon='expand' style={{float:'left', marginLeft:'7px'}} onClick={() => toggleExpand()}/>
+                }
 
                 <TagGroup>
                         {story && story.tags.map((tag, index) =>

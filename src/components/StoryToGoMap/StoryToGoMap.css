@@ -1,11 +1,11 @@
 .leaflet-container {
-    height: 95vh;
+    height: 90vh;
     width: 100%;
     z-index: 1;
 }
 
 .loaderContainer{
-    height: 95vh;
+    height: 90vh;
     width: 100%;
     background-color: #ededed;
 

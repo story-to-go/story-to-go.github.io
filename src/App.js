@@ -70,16 +70,13 @@ class App extends React.Component{
         let stories = JSON.parse(localStorage.getItem('stories')) || [];
         let addressLock = JSON.parse(localStorage.getItem('addressLock')) || false;
         let lockedCoords = JSON.parse(localStorage.getItem('lockedCoords')) || [];
+        let lockedAddress = JSON.parse(localStorage.getItem('lockedAddress')) || "";
+
         if(stories == null)
             stories = [];
-        this.setState({stories, addressLock, lockedCoords});
+        this.setState({stories, addressLock, lockedCoords, lockedAddress});
     }
 
-    componentWillUpdate(nextProps, nextState, nextContext) {
-        localStorage.setItem('stories', JSON.stringify(this.state.stories));
-        localStorage.setItem('addressLock', JSON.stringify(this.state.addressLock));
-        localStorage.setItem('lockedCoords', JSON.stringify(this.state.lockedCoords));
-    }
 
     onSliderChange(value){
         let start = value[0];
@@ -113,7 +110,7 @@ class App extends React.Component{
                 </Navbar.Header>
                 <Navbar.Body >
                     <Nav className="navItem addStory" pullRight>
-                        <a href="/" className="navbar-brand logo brandLogo">
+                        <a href="#" className="navbar-brand logo brandLogo">
                             <img src="logo/logo.png" alt={'logo'} style={{width:'378px', height:'46px'}}/>
                         </a>
                         <Nav.Item onClick={() => this.toggleAddStory()}> + הוסיפו סיפור</Nav.Item>
@@ -206,14 +203,24 @@ class App extends React.Component{
         this.setState({stories:[]});
     }
 
+    deleteStory(story) {
+        let filtered = this.state.stories.filter((s) => s.title !== story.title && s.author !== story.author && s.address !== story.address);
+        localStorage.setItem('stories', JSON.stringify(filtered));
+        this.setState({stories: filtered});
+    }
+
     lockedAddressChanged(){
         if(!this.state.addressLock){
             GeoCodeService.fromAddress(this.state.lockedAddress).then(response => {
                 let coords =  response.results[0].geometry.location;
+                localStorage.setItem('addressLock', JSON.stringify(true));
+                localStorage.setItem('lockedCoords', JSON.stringify(coords));
+                localStorage.setItem('lockedAddress', JSON.stringify(this.state.lockedAddress));
                 this.setState({addressLock: !this.state.addressLock, lockedCoords: coords});
             });
         }
         else{
+            localStorage.setItem('addressLock', JSON.stringify(false));
             this.setState({addressLock: !this.state.addressLock});
         }
     }
@@ -225,7 +232,7 @@ class App extends React.Component{
                     <AddStoryWindow address={this.state.clickedAddress} latlng={this.state.clickedLatLng} toggle={this.toggleAddStory.bind(this)}
                                     onSubmitStory={this.onStorySubmitted.bind(this)}/>
                 </Modal>
-                <Modal show={this.state.showAbout} onHide={() => this.toggleAbout()} autoFocus={true} full={true}>
+                <Modal show={this.state.showAbout} onHide={() => this.toggleAbout()} autoFocus={true} >
                     <AboutModal/>
                 </Modal>
 
@@ -240,6 +247,8 @@ class App extends React.Component{
                               toggleAddStory={(address, latlng) => this.addStory(address, latlng)}
                               lockedCoords={this.state.lockedCoords}
                               addressLocked={this.state.addressLock}
+                              deleteStory={this.deleteStory.bind(this)}
+                              selectedStory={this.state.selectedStory}
                 />
 
                 <Options show={this.state.showOptions} close={this.toggleShowOptions.bind(this)} stories={this.state.stories}
